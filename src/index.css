@@ -1,16 +1,36 @@
-@import url("https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap");
-
 :root {
-  --bg-color: #ffff00;
-  --text-color: #ff00ff;
-  --accent-color: #00ff00;
-  --border-color: #ff0000;
+  --bg-color: #3e3e00; /* Muddy vomit yellow-brown */
+  --text-color: #ff00ff; /* Blinding magenta */
+  --error-color: #ff0000;
+  --ugly-gray: #777777;
+}
+
+@keyframes seizure {
+  0% { background-color: #ff0000; }
+  25% { background-color: #00ff00; }
+  50% { background-color: #0000ff; }
+  75% { background-color: #ffff00; }
+  100% { background-color: #ff00ff; }
+}
+
+@keyframes jitter {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(10px, -10px) rotate(1deg); }
+  50% { transform: translate(-10px, 10px) rotate(-1deg); }
+  75% { transform: translate(10px, 10px) rotate(2deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+@keyframes text-crawl {
+  0% { letter-spacing: -5px; }
+  50% { letter-spacing: 50px; }
+  100% { letter-spacing: -5px; }
 }
 
 * {
   box-sizing: border-box;
-  font-family: "Comic Sans MS", "Comic Neue", cursive, sans-serif !important;
-  cursor: url("https://cur.cursors-4u.net/ani/ani-1/ani1.ani"), auto !important;
+  font-family: 'Times New Roman', serif !important; /* Boring and default */
+  cursor: wait !important; /* Always show loading mouse */
 }
 
 body {
@@ -18,106 +38,123 @@ body {
   color: var(--text-color);
   margin: 0;
   padding: 0;
-  height: 200vh; /* Forced scroll */
-  width: 200vw; /* Forced horizontal scroll */
+  height: 1000vh;
+  width: 1000vw;
   overflow: scroll;
-  background-image: url("https://www.freeiconspng.com/uploads/construction-sign-png-2.png");
-  background-repeat: repeat;
-  background-size: 100px;
+  /* Making it flicker slightly */
+  animation: seizure 0.05s infinite;
+  animation-play-state: paused; /* Start paused, will trigger on some elements */
+}
+
+body:hover {
+  animation-play-state: running; /* Whole page seizures when mouse is anywhere */
 }
 
 h1 {
-  font-size: 84px;
-  text-shadow: 10px 10px 0px #0000ff;
-  transform: rotate(-5deg);
-  margin: 100px;
+  font-size: 15px; /* Extremely tiny title */
   background: white;
-  border: 20px dotted red;
-  display: inline-block;
-}
-
-.marquee-container {
-  background: #000;
-  color: #fff;
-  padding: 20px;
-  font-size: 30px;
-  width: 100%;
-  position: fixed;
-  top: 0;
-  z-index: 9999;
-}
-
-.blink {
-  animation: blinker 0.2s linear infinite;
-  color: red;
-  font-weight: bold;
-}
-
-@keyframes blinker {
-  50% {
-    opacity: 0;
-  }
-}
-
-.button-wrong {
-  padding: 50px;
-  background: green;
-  color: yellow;
-  font-size: 40px;
-  border-radius: 50%;
-  position: absolute;
-  top: 400px;
-  left: 300px;
-  cursor: pointer;
-}
-
-.sidebar {
-  width: 100px;
-  height: 1000px;
-  background: purple;
-  border: 10px solid lime;
-  position: absolute;
-  right: -50px;
-  top: 200px;
-}
-
-table {
-  border: 15px solid orange;
-  background: cyan;
-  margin-top: 200px;
-}
-
-td {
-  padding: 50px;
-  border: 5px solid blue;
-}
-
-.visitor-count {
-  font-family: "Courier New", Courier, monospace;
-  font-size: 50px;
-  background: #333;
-  color: lime;
-  padding: 10px;
-  border: 5px inset gray;
-  display: inline-block;
-}
-
-.unresponsive-input {
-  width: 500px;
-  height: 100px;
-  font-size: 40px;
-  border: 10px solid black;
-  margin: 50px;
-}
-
-#overlay {
+  color: black;
+  border: 40px inset gray;
+  padding: 100px;
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(255, 0, 0, 0.8);
-  padding: 100px;
-  z-index: 100000;
-  display: none;
-  font-size: 100px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  z-index: 99999;
+  pointer-events: none; /* Can't click through it */
+}
+
+h2 {
+  font-size: 200px;
+  color: #0f0;
+  text-shadow: 20px 20px 0px #000;
+  text-transform: lowercase;
+  border: 10px dashed yellow;
+  display: inline-block;
+  animation: jitter 0.1s infinite;
+}
+
+.marquee-container {
+  background: #333;
+  color: #fff;
+  padding: 5px;
+  font-size: 8px; /* Unreadable tiny text */
+  width: 100%;
+  position: fixed;
+  bottom: 0; /* Wrong place */
+  z-index: 100;
+}
+
+.blink {
+  animation: blinker 0.01s steps(2, start) infinite;
+  color: black;
+  background-color: yellow;
+}
+
+@keyframes blinker {
+  to { visibility: hidden; }
+}
+
+.button-wrong {
+  padding: 10px;
+  background: #ccc;
+  color: #000;
+  font-size: 12px;
+  border: 3px outset #fff;
+  position: absolute;
+  transition: none !important; /* Jump instantly */
+}
+
+table {
+  border: 100px solid #483d8b;
+  background: #556b2f;
+  margin: 1000px; /* Hidden far away */
+  transform: scale(0.1);
+}
+
+td {
+  padding: 200px;
+  border: 1px solid red;
+}
+
+.unresponsive-input {
+  width: 1px; /* Impossible to click */
+  height: 500px;
+  background: black;
+  color: black; /* Invisible text */
+}
+
+.stain {
+  position: fixed;
+  background: rgba(80, 50, 20, 0.4);
+  filter: blur(50px);
+  border-radius: 50%;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.fake-popup {
+  position: fixed;
+  top: 10%;
+  left: 10%;
+  width: 80%;
+  height: 80%;
+  background: #c0c0c0;
+  border: 5px solid black;
+  z-index: 1000000;
+  padding: 50px;
+  box-shadow: 20px 20px 0px rgba(0,0,0,0.5);
+  font-family: 'Courier New', monospace !important;
+}
+
+.close-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: red;
+  color: white;
+  width: 10px;
+  height: 10px;
+  font-size: 5px;
+  cursor: none !important;
 }

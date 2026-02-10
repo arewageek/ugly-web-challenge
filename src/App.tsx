@@ -1,97 +1,125 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, type ChangeEvent } from 'react';
 import './index.css';
 
 function App() {
   const [count, setCount] = useState(0);
-  const [btnPos, setBtnPos] = useState({ top: 400, left: 300 });
+  const [btnPos, setBtnPos] = useState({ top: 500, left: 500 });
   const [inputValue, setInputValue] = useState("");
-  const [isLagging, setIsLagging] = useState(false);
+  const [popupVisible, setPopupVisible] = useState(true);
+  const [closeBtnPos, setCloseBtnPos] = useState({ top: 5, right: 5 });
 
-  // Unresponsive button: moves when hovered
+  // Extremely unresponsive button: jumps on hover AND random click failure
   const handleBtnHover = () => {
-    const newTop = Math.random() * (window.innerHeight - 100);
-    const newLeft = Math.random() * (window.innerWidth - 100);
-    setBtnPos({ top: newTop, left: newLeft });
+    setBtnPos({
+      top: Math.random() * (window.innerHeight - 50),
+      left: Math.random() * (window.innerWidth - 100)
+    });
   };
 
-  // Delayed reaction for state change
-  const handleIncrement = () => {
-    setIsLagging(true);
+  const handleBtnClick = () => {
+    // 90% chance to do nothing, 10% chance to alert and lag
+    if (Math.random() > 0.1) {
+      console.log("CLICK IGNORED BY SYSTEM");
+      return;
+    }
+    
     setTimeout(() => {
-      setCount(prev => prev + 1);
-      setIsLagging(false);
-      alert("YOU CLICKED IT!!!! CONGRATS!!!!");
-    }, 2000);
+      setCount(c => c + 1);
+      alert("WARNING: SYSTEM STABILITY AT 2%");
+    }, 5000); // 5 second lag
   };
 
-  // Typing lag
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const val = e.target.value;
+    // Artificial typing delay of 3 seconds
     setTimeout(() => {
       setInputValue(val);
-    }, 500);
+    }, 3000);
+  };
+
+  const moveCloseBtn = () => {
+    setCloseBtnPos({
+      top: Math.random() * 95,
+      right: Math.random() * 95
+    });
   };
 
   return (
-    <div style={{ width: '4000px', height: '4000px' }}>
+    <div style={{ position: 'relative', width: '2000px', height: '2000px' }}>
+      {/* Dirty Stains */}
+      <div className="stain" style={{ top: '10%', left: '20%', width: '400px', height: '300px' }} />
+      <div className="stain" style={{ top: '60%', right: '10%', width: '500px', height: '500px', background: 'rgba(0,100,0,0.2)' }} />
+
       <div className="marquee-container">
-        <marquee scrollamount="20">
-          WELCOME TO MY WEB-SITE !!! BEST VIEWED IN INTERNET EXPLORER 3.0 !!! <span className="blink">NEW!!!</span> NO COPYING ALLOWED !!!
+        {/* @ts-ignore */}
+        <marquee scrollamount="1" direction="down">
+          error error error error error error error error error help help help me
+        {/* @ts-ignore */}
         </marquee>
       </div>
 
-      <h1 id="main-title">BEST SITE 2026</h1>
+      <h1>THIS IS NOT A WEBSITE</h1>
 
-      <div style={{ position: 'absolute', top: '250px', left: '50px' }}>
-        <p className="blink" style={{ fontSize: '50px' }}>FREE MONEY CLICK HERE --{'>'}</p>
+      <div style={{ position: 'absolute', top: '200px', left: '100px' }}>
+        <h2 className="blink">VERY FAST LOADING...</h2>
         <button 
-          className="button-wrong" 
+          className="button-wrong"
           style={{ top: btnPos.top, left: btnPos.left }}
           onMouseEnter={handleBtnHover}
-          onClick={handleIncrement}
+          onClick={handleBtnClick}
         >
-          {isLagging ? "LOADING..." : `CLICK ME: ${count}`}
+          {count > 0 ? `FAILURES: ${count}` : "CLICK TO DESTROY"}
         </button>
       </div>
 
-      <div className="sidebar">
-        AD AD AD AD AD
+      {popupVisible && (
+        <div className="fake-popup">
+          <button 
+            className="close-btn" 
+            style={{ top: `${closeBtnPos.top}%`, right: `${closeBtnPos.right}%` }}
+            onMouseEnter={moveCloseBtn}
+            onClick={() => setPopupVisible(false)}
+          >
+            x
+          </button>
+          <div style={{ color: 'red', fontSize: '10px' }}>
+            CRITICAL SYSTEM ERROR: MOUSE TOO FAST
+            <br />
+            Please wait 48 hours for the 'X' button to become clickable.
+            <br />
+            {Array(500).fill("ERROR ").join("")}
+          </div>
+        </div>
+      )}
+
+      <div style={{ position: 'absolute', top: '1000px', left: '500px', border: '50px solid black' }}>
+        <p style={{ color: '#000', background: '#3e3e00' }}>SIGN HERE FOR FREE TAXES:</p>
+        <textarea 
+          className="unresponsive-input"
+          onChange={handleInputChange}
+          placeholder="your soul here..."
+        />
+        <div style={{ fontSize: '100px', color: 'red', transform: 'scaleX(-1)' }}>
+          {inputValue}
+        </div>
       </div>
 
-      <table cellPadding="50">
+      <table>
         <tbody>
           <tr>
             <td>
-              <h2>GUESTBOOK</h2>
-              <textarea 
-                className="unresponsive-input" 
-                placeholder="sign here..."
-                value={inputValue}
-                onChange={handleInputChange}
-              />
-              <p>Preview (slow): {inputValue}</p>
+              {/* @ts-ignore */}
+              <marquee>GOING NOWHERE FAST</marquee>
             </td>
             <td>
-              <img src="https://web.archive.org/web/20090829103212/http://geocities.com/Athens/Olympus/9700/undercon.gif" alt="under construction" />
-              <img src="https://web.archive.org/web/20091027005003im_/http://geocities.com/CollegePark/Lab/1543/baby2.gif" alt="dancing baby" />
-            </td>
-          </tr>
-          <tr>
-            <td colSpan={2}>
-              <div className="visitor-count">
-                VISITOR NUMBER: 00000042
-              </div>
+              <div className="blink">DEAD END</div>
             </td>
           </tr>
         </tbody>
       </table>
 
-      <div style={{ marginTop: '1000px', fontSize: '100px', color: 'blue' }}>
-        YOU FOUND THE BOTTOM!!
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
-      </div>
-
-      <div id="overlay">SITE HACKED BY COOLDUDE69</div>
+      {/* Hidden high-volume iframe logic could go here but let's keep it to visual ugliness */}
+      <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', border: '100px ridge #ffffff', pointerEvents: 'none' }} />
     </div>
   );
 }
